@@ -11,10 +11,7 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <div className="App-header">
-          <h2>Welcome to Giffy</h2>
-        </div>
+
         <div className="App-intro">
 
           {this.props.user.username &&
@@ -31,7 +28,6 @@ class App extends Component {
           }
 
         </div>
-      </div>
     );
   }
 }

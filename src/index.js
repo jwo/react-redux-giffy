@@ -2,9 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Register from './Register';
 import registerServiceWorker from './registerServiceWorker';
 import {createStore,applyMiddleware, combineReducers} from 'redux'
 import {Provider} from 'react-redux'
+import {BrowserRouter, Switch, Route} from 'react-router-dom'
 
 const userReducer = (state={}, action) => {
   if (action.type === 'AUTH'){
@@ -59,6 +61,17 @@ store.subscribe( () => console.log("STATE", store.getState()))
 store.dispatch({type: "@@INIT@@"})
 
 ReactDOM.render(<Provider store={store}>
-  <App />
+
+  <div className="App">
+    <div className="App-header">
+      <h2>Welcome to Giffy</h2>
+    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={App}/>
+        <Route exact path="/register" component={Register}/>
+      </Switch>
+    </BrowserRouter>
+  </div>
 </Provider>, document.getElementById('root'));
 registerServiceWorker();

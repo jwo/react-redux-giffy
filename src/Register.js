@@ -1,18 +1,19 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux'
-import {Link} from 'react-router-dom'
+import {Link, Redirect} from 'react-router-dom'
 
-class SignInForm extends Component {
+class Register extends Component {
   constructor(props){
     super(props)
     this.state = {
       username: "",
-      password: ""
+      password: "",
+      redirect: false
     }
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
-    this.handleSignIn = this.handleSignIn.bind(this)
+    this.handleRegistration = this.handleRegistration.bind(this)
   }
   handleUsernameChange(event){
     this.setState({username: event.target.value})
@@ -20,11 +21,11 @@ class SignInForm extends Component {
   handlePasswordChange(event){
     this.setState({password: event.target.value})
   }
-  handleSignIn(event){
+  handleRegistration(event){
     event.preventDefault()
     this.props.dispatch({type: 'START_LOADING'})
 
-    fetch("http://0.0.0.0:5000/api/auth", {
+    fetch("http://0.0.0.0:5000/api/registration", {
       method: "POST",
       body: JSON.stringify({
         username: this.state.username,
@@ -39,6 +40,8 @@ class SignInForm extends Component {
       const username = json.username
       const token = json.token
       this.props.dispatch({type: "AUTH", username, token})
+      // HOW TO GET OVER TO /register
+      this.setState({redirect: true})
     })
     .then( () => {
       this.props.dispatch({type: 'STOP_LOADING'})
@@ -46,13 +49,16 @@ class SignInForm extends Component {
 
   }
   render() {
+    if (this.state.redirect === true){
+      return <Redirect to="/"/>
+    }
     return (
       <div className="SignInForm">
         {this.props.loading === true &&
           <p>...loading...</p>
         }
 
-        <form onSubmit={this.handleSignIn}>
+        <form onSubmit={this.handleRegistration}>
           <div>
             <input type="text" onChange={this.handleUsernameChange} placeholder="Your Username"/>
           </div>
@@ -64,19 +70,17 @@ class SignInForm extends Component {
           </div>
         </form>
 
-        or <Link to="/register">Register</Link> for a new account.
-
+        or <Link to="/">Sign In</Link>
 
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    loading: state.loading,
-    user: state.user
+
   }
 }
 
-export default connect(mapStateToProps)(SignInForm);
+export default connect (mapStateToProps)(Register)
