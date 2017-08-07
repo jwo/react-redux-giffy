@@ -17,6 +17,17 @@ const userReducer = (state={}, action) => {
 }
 
 const gifsReducer = (state=[], action) => {
+  if (action.type === 'GIFS_RECEIVED'){
+    return action.gifs
+  }
+  if (action.type === 'NEW_GIF') {
+    const gifs = []
+    gifs[0] = action.gif
+    for (var i = 0; i < state.length; i++) {
+      gifs.push(state[i])
+    }
+    return gifs;
+  }
   return state
 }
 

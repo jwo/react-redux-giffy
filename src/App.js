@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import {connect} from 'react-redux'
 import SignInForm from './SignInForm'
+import GifList from './GifList'
+import GifForm from './GifForm'
 
 class App extends Component {
   constructor(props){
@@ -18,8 +20,8 @@ class App extends Component {
           {this.props.user.username &&
             <div>
               <h1>Hiya {this.props.user.username}</h1>
-
-              TODO: show list
+              <GifForm />
+              <GifList />
             </div>
 
           }
