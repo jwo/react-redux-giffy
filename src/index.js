@@ -4,9 +4,10 @@ import './index.css';
 import App from './App';
 import Register from './Register';
 import registerServiceWorker from './registerServiceWorker';
-import {createStore,applyMiddleware, combineReducers} from 'redux'
+import {createStore,applyMiddleware, combineReducers, compose} from 'redux'
 import {Provider} from 'react-redux'
 import {BrowserRouter, Switch, Route} from 'react-router-dom'
+import thunk from 'redux-thunk'
 
 const userReducer = (state={}, action) => {
   if (action.type === 'AUTH'){
@@ -49,13 +50,13 @@ const reducer = combineReducers({
   loading: loadingReducer
 })
 
-// const store = createStore(reducer)
-
-const createStoreWithMiddleware = applyMiddleware()(createStore);
-const store = createStoreWithMiddleware(
+/// How to get DevTools AND thunk working
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
   reducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  composeEnhancers(applyMiddleware(thunk))
 )
+
 
 store.subscribe( () => console.log("STATE", store.getState()))
 store.dispatch({type: "@@INIT@@"})

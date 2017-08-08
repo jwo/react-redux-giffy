@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
+import {fetchTheGifs} from './actions'
 
 class GifForm extends Component {
   constructor(props){
@@ -27,7 +28,8 @@ class GifForm extends Component {
     .then( r => r.json())
     .then( json => {
       const gif = json.gif;
-      this.props.dispatch({type: 'NEW_GIF', gif: gif})
+      // this.props.dispatch({type: 'NEW_GIF', gif: gif})
+      this.props.dispatch( fetchTheGifs() )
     })
     .then( () => {
       this.props.dispatch({type: 'STOP_LOADING'})

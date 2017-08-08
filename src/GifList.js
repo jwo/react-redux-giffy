@@ -1,18 +1,10 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux'
+import {fetchTheGifs} from './actions'
 
 class GifList extends Component {
-  componentDidMount(){
-    const token = this.props.user.token;
-    fetch("http://0.0.0.0:5000/api/me/gifs",{
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    })
-    .then( r => r.json())
-    .then( json => {
-      this.props.dispatch({ type: "GIFS_RECEIVED", gifs: json.gifs})
-    })
+  componentWillMount(){
+    this.props.dispatch( fetchTheGifs() )
   }
   render(){
     return <div>
